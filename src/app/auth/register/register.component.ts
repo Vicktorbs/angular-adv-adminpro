@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
       console.log('Create user');
       console.log(resp);
     }, (err) => {
-      Swal.fire('Error', err.error.msg, 'error')
+      Swal.fire('Error', err.error.msg, 'error');
     })
   }
 
