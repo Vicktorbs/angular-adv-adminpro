@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
+import { Usuario } from '../models/user.model';
 
 const base_url = environment.base_url;
 declare const gapi: any;
@@ -16,6 +17,7 @@ declare const gapi: any;
 export class UserService {
 
   public auth2: any;
+  public user: Usuario
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -58,6 +60,8 @@ export class UserService {
       }
     }).pipe(
       tap((resp: any) => {
+        const { email, name, img, google, role, uid } = resp.user;
+        this.user = new Usuario(name, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token);
       }),
       map(resp => true),
