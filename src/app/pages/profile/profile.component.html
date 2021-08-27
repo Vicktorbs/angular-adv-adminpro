@@ -26,7 +26,8 @@
                                 class="form-control" 
                                 id="exampleInputEmail1" 
                                 placeholder="Email"
-                                formControlName="email">
+                                formControlName="email"
+                                [readOnly]="userImg.google">
                         </div>
                     </div>
                     <button type="submit" 
@@ -45,14 +46,30 @@
                 <h4 class="card-title">Avatar</h4>
                 <h6 class="card-subtitle">User imagen</h6>
 
-                <img src="" alt="">
-                <fieldset class="form-group">
+                <div class="text-center">
+                    <img [src]="userImg.img" 
+                        alt="userService.user.img"
+                        class="img-avatar m-2"
+                        *ngIf="!imgTemp">
+                    <img [src]="imgTemp" 
+                        alt="New imagen"
+                        class="img-avatar m-2"
+                        *ngIf="imgTemp">
+                </div>
+                <input type="file" 
+                    name="update-imagen" 
+                    id="update-imagen"
+                    (change)="changeImagen($event.target.files[0])">
+                <!-- <fieldset class="form-group">
                     <label class="custom-file d-block">
                         <input type="file" id="file" class="custom-file-input">
                         <span class="custom-file-control file-upload"></span>
                     </label>
-                </fieldset>
-                <button type="buton" class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2">
+                </fieldset> -->
+                <button type="buton" 
+                        class="btn btn-success btn-block waves-effect waves-light m-r-10 mt-2"
+                        [disabled]="!imagenToUpload"
+                        (click)="uploadImagen()">
                     <i class="fa fa-save"></i>
                     Change imagen
                 </button>
