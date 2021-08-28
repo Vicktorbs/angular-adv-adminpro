@@ -99,11 +99,7 @@ export class UserService {
       ...data,
       role: this.user.role
     }
-    return this.http.put(`${ base_url }/users/${ this.uid }`, data, {
-      headers: {
-        'x-token': this.token
-      }
-    })
+    return this.http.put(`${ base_url }/users/${ this.uid }`, data, this.headers)
   }
 
   loginUser(formData: LoginForm) {
@@ -146,6 +142,10 @@ export class UserService {
   deleteUser(user: Usuario) {
     const url = `${ base_url }/users/${ user.uid }`;
     return this.http.delete(url, this.headers)
+  }
+
+  saveProfile(user: Usuario) {
+    return this.http.put(`${ base_url }/users/${ user.uid }`, user, this.headers);
   }
 
 }

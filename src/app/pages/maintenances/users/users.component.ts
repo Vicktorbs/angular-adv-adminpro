@@ -39,7 +39,7 @@ export class UsersComponent implements OnInit {
     
     if (this.fromRange < 0) {
       this.fromRange = 0
-    } else if(this.fromRange > this.totalUsers) {
+    } else if(this.fromRange >= this.totalUsers) {
       this.fromRange -= value;
     }
 
@@ -87,6 +87,13 @@ export class UsersComponent implements OnInit {
         )
       }
     })
+  }
+
+  changeRole(user: Usuario) {
+    this.userService.saveProfile(user).subscribe(
+      resp => console.log(resp)
+      
+    )
   }
 
 }
