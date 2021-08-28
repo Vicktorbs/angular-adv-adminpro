@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { LoginForm } from '../interfaces/login-form.interface';
 import { RegisterForm } from '../interfaces/register-form.interface';
@@ -31,6 +31,14 @@ export class UserService {
 
   get uid(): string {
     return this.user.uid || '';
+  }
+
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.token
+      }
+    }
   }
 
   googleInit() {
@@ -116,6 +124,23 @@ export class UserService {
       })
     );
 
+  }
+
+  loadUsers(range: number = 0) {
+    const url = `${ base_url }/users/?range=${ range }`;
+    // Se puede crear una interfas para definir lo que devuelve la peticion y cambiar el any
+    return this.http.get<any>(url, this.headers).pipe(
+      delay(400),
+      map(resp => {
+        const users = resp.users.map(
+          user => new Usuario(user.name, user.email, '', user.img, user.google, user.role, user.uid)
+        )
+        return {
+          total: resp.totalRecords,
+          users: users
+        }
+      })
+    )
   }
 
 }
