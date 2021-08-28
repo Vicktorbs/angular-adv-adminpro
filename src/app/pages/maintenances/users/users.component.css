@@ -1,3 +1,6 @@
 .avatar {
     width: 50px;
 }
+.cursor {
+    cursor: pointer;
+}
