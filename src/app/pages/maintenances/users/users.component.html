@@ -6,7 +6,9 @@
                         name="search" 
                         id="search"
                         class="form-control"
-                        placeholder="Search user...">
+                        placeholder="Search user..."
+                        (keyup)="search(textTermin.value)"
+                        #textTermin>
             </div>
         </div>
     </div>
@@ -63,8 +65,10 @@
                     </table>
                 </div>
 
-                <button (click)="changePage(-6)" class="btn btn-secondary m-2">Previous</button>
-                <button (click)="changePage(6)" class="btn btn-secondary m-2">Next</button>
+                <div *ngIf="textTermin.value.length === 0">
+                    <button (click)="changePage(-6)" class="btn btn-secondary m-2">Previous</button>
+                    <button (click)="changePage(6)" class="btn btn-secondary m-2">Next</button>
+                </div>
             </div>
         </div>
     </div>
