@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Usuario } from 'src/app/models/user.model';
 import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import { SearchesService } from 'src/app/services/searches.service';
@@ -10,20 +12,31 @@ import Swal from 'sweetalert2';
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   public totalUsers: number = 0;
   public users: Usuario[] = [];
   public usersTemp: Usuario[] = [];
   public fromRange: number = 0;
   public loading: boolean = true;
+  public imgSub: Subscription;
 
   constructor(private userService: UserService,
               private serachService: SearchesService,
               private modalImagenService: ModalImagenService) { }
 
+  ngOnDestroy(): void {
+    this.imgSub.unsubscribe();
+  }
+
   ngOnInit(): void {
     this.loadUser();
+    // Refrescando la vista actula para mostrar la nueva imagen de un usuario
+    this.imgSub = this.modalImagenService.newImagen.pipe(
+      delay(100)
+    ).subscribe(
+      img => this.loadUser()
+    );
   }
   
   loadUser() {
@@ -100,7 +113,7 @@ export class UsersComponent implements OnInit {
 
   openModal(user: Usuario) {
     console.log(user);
-    this.modalImagenService.openModal();
+    this.modalImagenService.openModal('users', user.uid, user.img);
   }
 
 }

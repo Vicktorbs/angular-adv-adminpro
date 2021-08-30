@@ -18,6 +18,19 @@
                 <div class="modal-body">
                     
                     <h3>Select an imagen</h3>
+
+                    <div class="text-center">
+                        <img [src]="modalImagenService.img" 
+                            alt="userService.user.img"
+                            class="img-avatar m-2 modal_img"
+                            *ngIf="!imgTemp">
+                        <img [src]="imgTemp" 
+                            alt="New imagen"
+                            class="img-avatar m-2 modal_img"
+                            *ngIf="imgTemp">
+                    </div>
+                    <input type="file" 
+                        (change)="changeImagen($event.target.files[0])">
                     
                 </div>
                 <div class="modal-footer">
@@ -27,7 +40,11 @@
                             (click)="closeModal()">
                         Cancel
                     </button>
-                    <button type="button" class="btn btn-primary">Update imagen</button>
+                    <button type="button" 
+                            class="btn btn-primary"
+                            (click)="uploadImagen()">
+                        Update imagen
+                    </button>
                 </div>
             </div>
         </div>
