@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from 'src/app/models/user.model';
+import { ModalImagenService } from 'src/app/services/modal-imagen.service';
 import { SearchesService } from 'src/app/services/searches.service';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
@@ -18,7 +19,8 @@ export class UsersComponent implements OnInit {
   public loading: boolean = true;
 
   constructor(private userService: UserService,
-              private serachService: SearchesService) { }
+              private serachService: SearchesService,
+              private modalImagenService: ModalImagenService) { }
 
   ngOnInit(): void {
     this.loadUser();
@@ -94,6 +96,11 @@ export class UsersComponent implements OnInit {
       resp => console.log(resp)
       
     )
+  }
+
+  openModal(user: Usuario) {
+    console.log(user);
+    this.modalImagenService.openModal();
   }
 
 }
