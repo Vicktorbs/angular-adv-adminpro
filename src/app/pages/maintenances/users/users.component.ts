@@ -22,7 +22,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   public imgSub: Subscription;
 
   constructor(private userService: UserService,
-              private serachService: SearchesService,
+              private searchService: SearchesService,
               private modalImagenService: ModalImagenService) { }
 
   ngOnDestroy(): void {
@@ -65,8 +65,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (termin.length === 0) {
       return this.users = this.usersTemp;
     }
-    this.serachService.search('users', termin).subscribe(
-      resp => {
+    this.searchService.search('users', termin).subscribe(
+      (resp: Usuario[]) => {
         this.users = resp;
       }
       
