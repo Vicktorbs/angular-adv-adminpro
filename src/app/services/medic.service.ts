@@ -33,7 +33,7 @@ export class MedicService {
     )
   }
 
-  createMedics(medic: Medic) {
+  createMedics(medic: { name: string, hospital: string }) {
     const url = `${ base_url }/medics`;
     // Se puede crear una interfas para definir lo que devuelve la peticion y cambiar el any
     return this.http.post(url, medic, this.headers);
