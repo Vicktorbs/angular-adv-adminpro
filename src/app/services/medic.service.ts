@@ -33,14 +33,21 @@ export class MedicService {
     )
   }
 
+  gettingMedicById(id: string) {
+    const url = `${ base_url }/medics/${ id }`;
+    return this.http.get(url, this.headers).pipe(
+      map((resp: {ok: boolean, medic: Medic}) => resp.medic)
+    )
+  }
+
   createMedics(medic: { name: string, hospital: string }) {
     const url = `${ base_url }/medics`;
     // Se puede crear una interfas para definir lo que devuelve la peticion y cambiar el any
     return this.http.post(url, medic, this.headers);
   }
 
-  updateMedics(medic: Medic) {
-    const url = `${ base_url }/hospitals/${ medic._id }`;
+  updateMedic(medic: Medic) {
+    const url = `${ base_url }/medics/${ medic._id }`;
     // Se puede crear una interfas para definir lo que devuelve la peticion y cambiar el any
     return this.http.put(url, medic, this.headers);
   }
