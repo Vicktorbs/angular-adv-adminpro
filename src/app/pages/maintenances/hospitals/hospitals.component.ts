@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Hospital } from 'src/app/models/hospital.model';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   templateUrl: './hospitals.component.html',
   styleUrls: ['./hospitals.component.css']
 })
-export class HospitalsComponent implements OnInit {
+export class HospitalsComponent implements OnInit, OnDestroy {
 
   public hospitals: Hospital[] = [];
   public hospitalsTemp: Hospital[] = [];
@@ -22,6 +22,10 @@ export class HospitalsComponent implements OnInit {
   constructor(private hospitalService: HospitalService,
               private searchService: SearchesService,
               private modalImagenService: ModalImagenService) { }
+
+  ngOnDestroy(): void {
+    this.imgSub.unsubscribe();
+  }
 
   ngOnInit(): void {
     this.loadHospitals();
@@ -54,12 +58,23 @@ export class HospitalsComponent implements OnInit {
   }
 
   deleteChanges(hospital: Hospital) {
-    this.hospitalService.deleteHospital(hospital._id).subscribe(
-      resp => {
-        this.loadHospitals();
-        Swal.fire('Deleted', hospital.name, 'success');
+    Swal.fire({
+      title: 'Are you sure?',
+      text: `You are trying to delete: ${ hospital.name }`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.hospitalService.deleteHospital(hospital._id).subscribe(
+          resp => {
+            this.loadHospitals();
+            Swal.fire('Deleted', `Hospital '${ hospital.name }' was delete`, 'success');
+          }
+        )
       }
-    )
+    })
+    
   }
 
   async lauchSweetAlert() {

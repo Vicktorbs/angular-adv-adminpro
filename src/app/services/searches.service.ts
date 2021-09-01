@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Hospital } from '../models/hospital.model';
+import { Medic } from '../models/medic.model';
 import { Usuario } from '../models/user.model';
 
 const base_url = environment.base_url;
@@ -38,6 +39,10 @@ export class SearchesService {
     )
   }
 
+  private transformMedic(results: any[]): Medic[] {
+    return results
+  }
+
   search(type: 'users'|'medics'|'hospitals',
         termin: string) {
     const url = `${ base_url }/todo/collection/${ type }/${ termin }`;
@@ -46,11 +51,14 @@ export class SearchesService {
         switch (type) {
           case 'users':
             return this.transformUser(resp.results)
-            break;
             
           case 'hospitals':
             return this.transformHospital(resp.results)
             break;
+            
+            case 'medics':
+              return this.transformMedic(resp.results)
+              break;
         
           default:
             return [];

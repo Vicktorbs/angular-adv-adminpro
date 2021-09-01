@@ -1,1 +1,92 @@
-<p>medics works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <input type="text" 
+                        name="search" 
+                        id="search"
+                        class="form-control"
+                        placeholder="Search medic..."
+                        (keyup)="search(textTermin.value)"
+                        #textTermin>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="loading">
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <h4 class="alert-heading">
+                Cargando...
+            </h4>
+            <i class="fa fa-spin fa-refresh fa-x2"></i>
+            <p class="mb-0">Please wait</p>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="!loading">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-7">
+                        <h4 class="card-title">Medics ({{ medics.length }})</h4>
+                        <h6 class="card-subtitle">Medics registered in app</h6>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="text-right">
+                            <a class="btn btn-primary"
+                                routerLink="/dashboard/medic/new">
+                                <i class="fa fa-hospital-o"></i>
+                                Create medic
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let medic of medics">
+                                <td class="text-center">
+                                    <img [src]="medic.img | imagen:'medics'" 
+                                        [alt]="medic.name"
+                                        class="avatar"
+                                        (click)="openModal(medic)">
+                                </td>
+                                <td>{{ medic.name }}</td>
+                                <td class="text-nowrap">
+                                    <a class="cursor" 
+                                        [routerLink]="[ '/dashboard/medic', medic._id ]" 
+                                        data-toggle="tooltip" 
+                                        data-original-title="Edit">
+                                        <i class="fa fa-pencil text-inverse m-r-10"></i>
+                                    </a>
+                                    <a class="cursor"
+                                        data-toggle="tooltip" 
+                                        data-original-title="Delete"
+                                        (click)="deleteMedic(medic)">
+                                        <i class="fa fa-close text-danger"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- <button class="btn btn-secondary m-2">Previous</button>
+                <button class="btn btn-secondary m-2">Next</button> -->
+            </div>
+        </div>
+    </div>
+</div>
