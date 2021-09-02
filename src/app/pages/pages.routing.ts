@@ -14,6 +14,7 @@ import { HospitalsComponent } from './maintenances/hospitals/hospitals.component
 import { MedicsComponent } from './maintenances/medics/medics.component';
 import { MedicComponent } from './maintenances/medics/medic.component';
 import { SearchAllComponent } from './search-all/search-all.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 const routes: Routes = [
     { 
@@ -30,11 +31,13 @@ const routes: Routes = [
           { path: 'profile', component: ProfileComponent, data: { title: 'Profile' } },
           { path: 'search/:termin', component: SearchAllComponent, data: { title: 'Search...' } },
 
-        //   Maintenances
-          { path: 'users', component: UsersComponent, data: { title: 'Users maintenance' } },
+          //   Maintenances
           { path: 'hospitals', component: HospitalsComponent, data: { title: 'Hospitals maintenance' } },
           { path: 'medics', component: MedicsComponent, data: { title: 'Medics maintenance' } },
           { path: 'medic/:id', component: MedicComponent, data: { title: 'Medics maintenance' } },
+
+          // Admin routes
+          { path: 'users', canActivate: [AdminGuard], component: UsersComponent, data: { title: 'Users maintenance' } },
         ] 
     }
 ];
