@@ -57,6 +57,7 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('menu');
     
     this.auth2.signOut().then(() => {
 
@@ -78,6 +79,7 @@ export class UserService {
         const { email, name, img = '', google, role, uid } = resp.user;
         this.user = new Usuario(name, email, '', img, google, role, uid);
         localStorage.setItem('token', resp.token);
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         return true;
       }),
       catchError(error => of(false))
@@ -88,6 +90,7 @@ export class UserService {
     
     return this.http.post(`${ base_url }/users`, formData).pipe(
       tap((resp: any) => {
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
@@ -106,6 +109,7 @@ export class UserService {
 
     return this.http.post(`${ base_url }/login`, formData).pipe(
       tap((resp: any) => {
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
@@ -116,6 +120,7 @@ export class UserService {
 
     return this.http.post(`${ base_url }/login/google`, { token }).pipe(
       tap((resp: any) => {
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         localStorage.setItem('token', resp.token);
       })
     );
