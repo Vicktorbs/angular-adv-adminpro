@@ -1,0 +1,100 @@
+<div class="row animated fadeIn fast">
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Users</h4>
+
+                <div class="alert alert-info" *ngIf="users.length === 0">
+                    <p>No user found</p>
+                </div>
+
+                <div class="table-responsive" *ngIf="users.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Avatar</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td>
+                                    <img [src]="user.img | imagen:'users'" [alt]="user.name" class="avatar">
+                                </td>
+                                <td>{{ user.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Medics</h4>
+
+                <div class="alert alert-info" *ngIf="medics.length === 0">
+                    <p>No medic found</p>
+                </div>
+
+                <div class="table-responsive"  *ngIf="medics.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let medic of medics">
+                                <td>
+                                    <img [src]="medic.img | imagen:'medics'" [alt]="medic.name" class="avatar">
+                                </td>
+                                <td>
+                                    <a [routerLink]="[ '/dashboard/medic', medic._id ]">
+                                        {{ medic.name }}
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Hospitals</h4>
+
+                <div class="alert alert-info"  *ngIf="hospitals.length === 0">
+                    <p>No hospital found</p>
+                </div>
+
+                <div class="table-responsive" *ngIf="hospitals.length > 0">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let hospital of hospitals">
+                                <td>
+                                    <img [src]="hospital.img | imagen:'hospitals'" [alt]="hospital.name" class="avatar">
+                                </td>
+                                <td>{{ hospital.name }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

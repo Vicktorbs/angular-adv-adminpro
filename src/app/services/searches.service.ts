@@ -43,6 +43,11 @@ export class SearchesService {
     return results
   }
 
+  searchAll(termin: string) {
+    const url = `${ base_url }/todo/${ termin }`;
+    return this.http.get(url, this.headers);
+  }
+
   search(type: 'users'|'medics'|'hospitals',
         termin: string) {
     const url = `${ base_url }/todo/collection/${ type }/${ termin }`;
